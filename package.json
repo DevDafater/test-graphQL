@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "joi": "^17.13.3",
     "@apollo/client": "^3.8.7",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
