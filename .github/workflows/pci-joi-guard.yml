@@ -1,0 +1,24 @@
+name: PCI Sanitized Inputs Guard
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+jobs:
+  joi-present:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ensure joi (input validation) is in dependencies
+        run: |
+          node -e '
+            const pkg = require("./package.json");
+            const deps = pkg.dependencies || {};
+            if (!deps.joi) {
+              console.error("PCI FAIL: \"joi\" missing from dependencies in package.json.");
+              console.error("Do not remove joi during dependency upgrades — it is required for the PCI DSS Sanitized Inputs check.");
+              process.exit(1);
+            }
+            console.log("PCI OK: joi present ->", deps.joi);
+          '
